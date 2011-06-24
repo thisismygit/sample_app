@@ -1,7 +1,7 @@
 SampleApp::Application.routes.draw do
   resources :users
 
-
+  match '/newsblocks', :to => 'pages#newsblocks'
 
   match '/contact', :to => 'pages#contact'
 
