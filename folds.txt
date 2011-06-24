@@ -1,0 +1,8 @@
+this is a foldable node
+	It definately has an indent
+	Two, actually
+
+Here's another node
+	It almost had a typo
+	but I fixed it
+
