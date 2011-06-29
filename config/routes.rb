@@ -2,14 +2,11 @@ SampleApp::Application.routes.draw do
   get "sessions/new"
 
   resources :users
-  resources :sessions, :only => [:new, :create, :destroy]
+  resources :sessions, :only => [:new, :create, :destroy]  #qualifieing it like this means '/sessions/1' doesn't work, neither does '/sessions/1/edit'
 
   match '/newsblocks', :to => 'pages#newsblocks'
-
   match '/contact', :to => 'pages#contact'
-
   match '/about', :to => 'pages#about'
-
   match '/help', :to => 'pages#help'
 
   match '/signup', :to => 'users#new'
