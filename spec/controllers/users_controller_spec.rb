@@ -17,6 +17,8 @@ describe UsersController do
 
       before(:each) do
         @user = test_sign_in(Factory(:user))
+        #@user.toggle!(:admin)
+        
         second = Factory(:user, :name => "Bob", :email => "another@example.com")
         third  = Factory(:user, :name => "Ben", :email => "another@example.net")
 
@@ -52,6 +54,23 @@ describe UsersController do
         get :index
         response.should have_selector("title", :content => "All users")
       end
+      
+      it "should NOT have a delete option for regular users" do
+        get :index
+        @users[1..2].each do |user|
+          response.should_not have_selector("li", :content => "delete")
+        end
+      end
+      
+      it "should have a delete option for admins" do
+        admin = @users[0]
+        admin.toggle!(:admin)
+        
+        get :index
+                                # this implies that it will do @users.first as the thing it logs in as
+        response.should have_selector("li", :content => "delete")
+      end
+      
     end
   end
 
@@ -295,8 +314,8 @@ describe UsersController do
     describe "as an admin user" do
       
       before(:each) do
-        admin = Factory(:user, :email => "admin@example.com", :admin => true)
-        test_sign_in(admin)
+        @admin = Factory(:user, :email => "admin@example.com", :admin => true)
+        test_sign_in(@admin)
       end
 
       it "should destroy the user" do
@@ -309,6 +328,13 @@ describe UsersController do
         delete :destroy, :id => @user
         response.should redirect_to(users_path)
       end
+      
+      it "should not destoy itself" do
+        lambda do
+          delete :destroy, :id => @admin
+        end.should_not change(User, :count) 
+      end
+      
     end
   end
 
