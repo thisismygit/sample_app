@@ -6,6 +6,11 @@ Factory.define :user do |user|
   user.password_confirmation "foobar"
 end
 
-Factory.sequence :email do |n|
+Factory.sequence :email do |n|   # this sets Factory up to do sequencial string generations when needed.  
   "person-#{n}@example.com"
+end
+
+Factory.define :micropost do |micropost|
+  micropost.content "Foo bar"
+  micropost.association :user
 end

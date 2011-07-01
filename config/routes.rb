@@ -3,7 +3,9 @@ SampleApp::Application.routes.draw do
 
   resources :users
   resources :sessions, :only => [:new, :create, :destroy]  #qualifieing it like this means '/sessions/1' doesn't work, neither does '/sessions/1/edit'
-
+  resources :microposts, :only => [:create, :destroy]
+  
+  
   match '/newsblocks', :to => 'pages#newsblocks'
   match '/contact', :to => 'pages#contact'
   match '/about', :to => 'pages#about'
