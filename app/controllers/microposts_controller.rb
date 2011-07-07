@@ -1,6 +1,10 @@
 class MicropostsController < ApplicationController
-  before_filter :authenticate, :only => [:create, :destroy]
+  before_filter :authenticate, :only => [:create, :destroy, :index]
   before_filter :authorized_user, :only => :destroy
+  
+  def index
+    @feed_items = User.find(params[:id]).feed.paginate(:page => params[:page])
+  end
   
   def create
     @micropost = current_user.microposts.build(params[:micropost])   # this pulls out micropost[content] from the form submitted

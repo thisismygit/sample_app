@@ -1,9 +1,16 @@
 SampleApp::Application.routes.draw do
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
+  
   get "sessions/new"
 
   resources :users
   resources :sessions, :only => [:new, :create, :destroy]  #qualifieing it like this means '/sessions/1' doesn't work, neither does '/sessions/1/edit'
-  resources :microposts, :only => [:create, :destroy]
+  resources :microposts, :only => [:create, :destroy, :index]
+  resources :relationships, :only => [:create, :destroy]
   
   
   match '/newsblocks', :to => 'pages#newsblocks'
@@ -14,6 +21,8 @@ SampleApp::Application.routes.draw do
   match '/signup', :to => 'users#new'
   match '/signin', :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy'
+  
+  match '/users/:id/microposts', :to => 'microposts#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

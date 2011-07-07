@@ -53,6 +53,12 @@ describe "LayoutLinks" do
       response.should have_selector("a", :href => user_path(@user),
                                          :content => "Profile")
     end
+    
+    it "should have a bitching microposts count" do
+      visit root_path
+      response.should have_selector("span", :content => "0 microposts")
+    end
+    
   end
 end
 
